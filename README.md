@@ -30,7 +30,17 @@ Open `index.html` directly in a browser, or serve the folder with any static ser
 1. **Phone / email** — `(310) 555-0148` and `hello@yazmedia.com` are fictional (search & replace across the 5 HTML files).
 2. **Social links** — footer/chips point to `#`.
 3. **Showreel** — drop your video at `assets/showreel.mp4`; the homepage modal will play it automatically (until then it shows an honest placeholder).
-4. **Portfolio cards** — currently use crops from the two brand photos (`assets/img/`, generated from the Telegram brand images via `_tmp-scripts/crop_photos.py`); swap each card's inline `--img` for that project's real thumbnail.
+4. **Portfolio cards** — mix of free-license stock photos (`assets/img/stock/`, credits in `assets/img/stock/CREDITS.md` — keep them there, CC BY-SA requires attribution) and crops of the brand photos; swap each card for that project's real thumbnail when the film is delivered.
+
+## Photos
+
+- `assets/img/hero-main.jpg` + `src-*.jpg` — the two brand images (Telegram). The hero has a
+  blurred 160px top extension (`_tmp-scripts/extend_hero.py`) so the man's head clears the fixed header.
+- `assets/img/*.jpg` — text-free crops of those brand photos for section backgrounds
+  (`_tmp-scripts/crop_photos.py` regenerates them; brightness-tunable).
+- `assets/img/stock/` — themed stock photos fetched from **Wikimedia Commons** via the Commons API
+  (`_tmp-scripts/commons_fetch.py`), CC0/PD/CC BY/CC BY-SA only, normalized to max 1280px q82.
+  Credits: `assets/img/stock/CREDITS.md` — do not delete (CC BY-SA license requires attribution).
 5. **Stats, testimonials, client names, team bios, pricing** — sample content written to look real; replace with your actual numbers/reviews.
 6. **Contact form** — front-end validation only; connect a backend (Formspree, Netlify Forms, or your server) in `js/main.js` (`#contactForm` handler).
 7. **SEO** — add your real domain to the JSON-LD block in `index.html` and create OG images.
