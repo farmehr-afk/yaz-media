@@ -30,7 +30,7 @@ Open `index.html` directly in a browser, or serve the folder with any static ser
 1. **Phone / email** — `(310) 555-0148` and `hello@yazmedia.com` are fictional (search & replace across the 5 HTML files).
 2. **Social links** — footer/chips point to `#`.
 3. **Showreel** — drop your video at `assets/showreel.mp4`; the homepage modal will play it automatically (until then it shows an honest placeholder).
-4. **Portfolio cards** — styled gradient placeholders; swap for real thumbnails (or `<img>`) and link to finished films.
+4. **Portfolio cards** — currently use crops from the two brand photos (`assets/img/`, generated from the Telegram brand images via `_tmp-scripts/crop_photos.py`); swap each card's inline `--img` for that project's real thumbnail.
 5. **Stats, testimonials, client names, team bios, pricing** — sample content written to look real; replace with your actual numbers/reviews.
 6. **Contact form** — front-end validation only; connect a backend (Formspree, Netlify Forms, or your server) in `js/main.js` (`#contactForm` handler).
 7. **SEO** — add your real domain to the JSON-LD block in `index.html` and create OG images.

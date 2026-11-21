@@ -164,29 +164,46 @@ a { cursor: pointer; }
   position: relative;
   min-height: 100svh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   overflow: hidden;
+  /* main brand photo as the hero background — scrim keeps the copy readable
+     and the baked-in "YAZ MEDIA" headline acts as the visual title on desktop */
   background:
-    radial-gradient(ellipse 60% 45% at 68% 18%, rgba(212, 162, 78, 0.16), transparent 60%),
-    radial-gradient(ellipse 50% 40% at 15% 80%, rgba(161, 98, 7, 0.12), transparent 60%),
-    radial-gradient(ellipse 45% 35% at 85% 75%, rgba(90, 74, 45, 0.14), transparent 60%),
-    var(--ym-bg);
+    linear-gradient(180deg, rgba(11, 10, 8, 0.5) 0%, rgba(11, 10, 8, 0.08) 38%, rgba(11, 10, 8, 0.42) 72%, rgba(11, 10, 8, 0.94) 100%),
+    url("../assets/img/hero-main.jpg") center center / cover no-repeat var(--ym-bg);
 }
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.12) 3px 4px);
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.1) 3px 4px);
   pointer-events: none;
 }
-.hero-inner { position: relative; z-index: 2; padding-block: 7rem 5rem; }
-.hero h1 {
-  font-size: clamp(2.9rem, 7.2vw, 5.6rem);
-  line-height: 1.04;
+.hero-inner { position: relative; z-index: 2; padding-block: 0 6.5rem; width: 100%; }
+.hero-copy { max-width: 36rem; }
+.hero-title {
+  font-size: clamp(2.6rem, 6.4vw, 4.6rem);
+  line-height: 1.05;
   font-weight: 600;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.1rem;
 }
-.hero h1 em { color: var(--ym-gold); font-style: italic; }
+.hero-title em { color: var(--ym-gold); font-style: italic; }
+/* On desktop the photo already carries the "YAZ MEDIA" headline — keep the HTML
+   h1 for SEO/screen readers but out of sight; below 992px the photo crop hides
+   the baked text, so the HTML headline becomes visible. */
+@media (min-width: 992px) {
+  .hero-title {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
 .hero .lead { max-width: 34rem; }
 .hero-scroll {
   position: absolute;
@@ -225,10 +242,17 @@ a { cursor: pointer; }
   padding: 10rem 0 4.5rem;
   background:
     radial-gradient(ellipse 55% 60% at 75% 0%, rgba(212, 162, 78, 0.14), transparent 62%),
-    var(--ym-bg);
+    linear-gradient(rgba(11, 10, 8, 0.88), rgba(11, 10, 8, 0.82)),
+    url("../assets/img/spotlight.jpg") center 30% / cover no-repeat var(--ym-bg);
   border-bottom: 1px solid var(--ym-border);
 }
 .page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 600; }
+.page-hero-photo {
+  background:
+    radial-gradient(ellipse 55% 60% at 75% 0%, rgba(212, 162, 78, 0.16), transparent 62%),
+    linear-gradient(rgba(11, 10, 8, 0.8), rgba(11, 10, 8, 0.72)),
+    url("../assets/img/carpet-full.jpg") center 62% / cover no-repeat var(--ym-bg);
+}
 
 /* ---- sections ------------------------------------------------------------ */
 .section { padding: 5.5rem 0; }
@@ -312,7 +336,13 @@ a { cursor: pointer; }
   gap: 1rem;
 }
 .reel-caption .t { font-family: "Playfair Display", serif; font-size: 1.3rem; }
-.reel-caption .s { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ym-muted); }
+.reel-caption .s {
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ym-muted);
+  text-shadow: 0 1px 8px rgba(5, 4, 3, 0.85);
+}
 
 /* ---- service cards --------------------------------------------------------- */
 .svc-card {
@@ -365,19 +395,31 @@ a { cursor: pointer; }
   background: linear-gradient(155deg, var(--g1, #2b2317) 0%, #0b0a08 90%);
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
+/* real photo per card lives in an <img class="card-photo"> (document-relative src,
+   avoiding the custom-property url() base-URL pitfall) */
+.work-card .card-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
 .work-card:hover, .work-card:focus-visible { transform: translateY(-4px); border-color: rgba(212, 162, 78, 0.55); }
 .work-card::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
-    radial-gradient(ellipse 55% 40% at 70% 22%, rgba(212, 162, 78, 0.3), transparent 62%),
-    radial-gradient(ellipse 40% 45% at 22% 75%, rgba(0, 0, 0, 0.55), transparent 70%);
+    radial-gradient(ellipse 55% 40% at 70% 22%, rgba(212, 162, 78, 0.18), transparent 62%),
+    linear-gradient(160deg, rgba(12, 9, 6, 0.1) 0%, rgba(6, 5, 4, 0.3) 55%, rgba(6, 5, 4, 0.78) 100%);
 }
 .work-card::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.1) 3px 4px);
 }
 .work-card .meta {
@@ -461,7 +503,18 @@ a { cursor: pointer; }
   border-block: 1px solid var(--ym-border);
   background:
     radial-gradient(ellipse 60% 70% at 82% 30%, rgba(212, 162, 78, 0.16), transparent 60%),
-    linear-gradient(140deg, #16110b 0%, var(--ym-bg) 70%);
+    linear-gradient(100deg, rgba(11, 10, 8, 0.9) 0%, rgba(11, 10, 8, 0.74) 55%, rgba(11, 10, 8, 0.45) 100%),
+    url("../assets/img/carpet.jpg") left bottom / cover no-repeat var(--ym-bg);
+}
+.band-reel {
+  background:
+    linear-gradient(rgba(11, 10, 8, 0.9), rgba(11, 10, 8, 0.86)),
+    url("../assets/img/spotlight.jpg") center 35% / cover no-repeat var(--ym-bg);
+}
+.band-crowd {
+  background:
+    linear-gradient(rgba(11, 10, 8, 0.88), rgba(11, 10, 8, 0.84)),
+    url("../assets/img/crowd.jpg") center 40% / cover no-repeat var(--ym-bg);
 }
 .check-list { list-style: none; padding: 0; margin: 0; }
 .check-list li { display: flex; gap: 0.8rem; align-items: flex-start; padding-block: 0.45rem; color: var(--ym-muted); }
@@ -547,6 +600,12 @@ a { cursor: pointer; }
   border: 1px solid rgba(212, 162, 78, 0.4);
   background: linear-gradient(150deg, rgba(212, 162, 78, 0.14), rgba(28, 25, 23, 0.6));
 }
+.team-avatar.photo {
+  background-size: cover;
+  background-position: center 15%;
+  color: transparent;
+  text-shadow: none;
+}
 .team-card h3 { font-size: 1.2rem; margin-bottom: 0.15rem; }
 .team-card .role { font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ym-muted); }
 .team-card .bio { color: var(--ym-muted); font-size: 0.88rem; margin-top: 0.8rem; }
@@ -572,7 +631,8 @@ a { cursor: pointer; }
   border-block: 1px solid rgba(212, 162, 78, 0.3);
   background:
     radial-gradient(ellipse 55% 80% at 50% 120%, rgba(212, 162, 78, 0.2), transparent 65%),
-    var(--ym-bg-2);
+    linear-gradient(rgba(11, 10, 8, 0.82), rgba(11, 10, 8, 0.88)),
+    url("../assets/img/tripod.jpg") right center / cover no-repeat var(--ym-bg);
   text-align: center;
   padding: 5.5rem 0;
 }
@@ -629,6 +689,12 @@ a { cursor: pointer; }
 .modal-content { background: var(--ym-bg-2); border: 1px solid var(--ym-border); border-radius: 6px; }
 .modal-header .btn-close { filter: invert(1) grayscale(1); }
 .reel-video { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 4px; display: block; }
+/* photo-filled variant of the framed panel (about page) */
+.photo-panel {
+  background:
+    linear-gradient(180deg, rgba(8, 6, 4, 0.1) 40%, rgba(8, 6, 4, 0.72) 100%),
+    url("../assets/img/hero-man.jpg") center top / cover no-repeat var(--ym-card);
+}
 .reel-fallback {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -668,7 +734,14 @@ a { cursor: pointer; }
     margin-top: 0.9rem;
   }
   .ym-navbar .nav-link { padding-block: 0.6rem; }
-  .hero-inner { padding-block: 8rem 6rem; }
+  .hero-inner { padding-block: 0 6rem; }
+  /* narrow crop of the brand photo keeps the man + camera in frame; the baked
+     headline falls outside the crop, so the HTML headline takes over */
+  .hero {
+    background:
+      linear-gradient(180deg, rgba(11, 10, 8, 0.72) 0%, rgba(11, 10, 8, 0.28) 45%, rgba(11, 10, 8, 0.9) 88%, rgba(11, 10, 8, 0.97) 100%),
+      url("../assets/img/hero-main.jpg") 86% center / cover no-repeat var(--ym-bg);
+  }
   .section { padding: 4rem 0; }
   .hero-stats .stat + .stat { border-left: 0; border-top: 1px solid var(--ym-border); }
   .hero-stats .stat { text-align: left; }
